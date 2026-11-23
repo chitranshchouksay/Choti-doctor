@@ -1,0 +1,529 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f9e4ef">
+<title>A Little World for Choti Doctor</title>
+
+<style>
+:root {
+  --pink: #f5c6da;
+  --rose: #c65d8a;
+  --deep: #75415e;
+  --lav: #eee8ff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Georgia, serif;
+  color: var(--deep);
+  background: linear-gradient(
+    145deg,
+    #fff7fb,
+    #f8e5f0 48%,
+    #eee9ff
+  );
+  min-height: 100vh;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+.hero {
+  min-height: 86vh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 32px 18px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero:before,
+.hero:after {
+  content: "✿";
+  position: absolute;
+  color: #d88aae88;
+  font-size: 110px;
+  animation: float 7s ease-in-out infinite;
+}
+
+.hero:before {
+  left: 5%;
+  top: 12%;
+}
+
+.hero:after {
+  right: 7%;
+  bottom: 12%;
+  animation-delay: 1.5s;
+}
+
+@keyframes float {
+  50% {
+    transform: translateY(-18px) rotate(12deg);
+  }
+}
+
+.hero-card {
+  max-width: 700px;
+  background: #ffffffb8;
+  border: 1px solid white;
+  border-radius: 30px;
+  padding: clamp(28px, 6vw, 58px);
+  box-shadow: 0 18px 55px #9e5b7b20;
+  backdrop-filter: blur(8px);
+}
+
+.kicker {
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  font: 12px Arial, sans-serif;
+  color: #b66a8d;
+}
+
+h1 {
+  font-size: clamp(42px, 9vw, 76px);
+  line-height: 1.02;
+  margin: 14px 0;
+  color: #b64f80;
+}
+
+.subtitle {
+  font-size: 19px;
+  line-height: 1.7;
+  max-width: 520px;
+  margin: 0 auto 26px;
+}
+
+.primary,
+.navbtn {
+  border: 0;
+  border-radius: 999px;
+  padding: 12px 20px;
+  background: #c96c96;
+  color: white;
+  transition: .2s;
+}
+
+.primary:hover,
+.navbtn:hover {
+  transform: translateY(-2px);
+  background: #ae527e;
+}
+
+main {
+  max-width: 980px;
+  margin: auto;
+  padding: 12px 18px 60px;
+}
+
+nav {
+  display: flex;
+  gap: 9px;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 12px 0 24px;
+}
+
+.navbtn {
+  background: white;
+  color: #995575;
+  border: 1px solid #f1cddd;
+  padding: 10px 15px;
+  font: 14px Arial, sans-serif;
+}
+
+.navbtn.active {
+  background: #c96c96;
+  color: white;
+}
+
+.page {
+  display: none;
+  animation: appear .35s ease;
+}
+
+.page.active {
+  display: block;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.panel {
+  background: #ffffffc9;
+  border: 1px solid white;
+  border-radius: 26px;
+  padding: clamp(20px, 4vw, 38px);
+  box-shadow: 0 14px 40px #9e5b7b17;
+}
+
+h2 {
+  text-align: center;
+  font-size: clamp(28px, 5vw, 40px);
+  margin: 5px 0 12px;
+  color: #b64f80;
+}
+
+.lead {
+  text-align: center;
+  line-height: 1.7;
+  margin: 0 auto 24px;
+  max-width: 650px;
+}
+
+.note {
+  background: #fff3f8;
+  border-left: 4px solid #d783a7;
+  padding: 18px 20px;
+  border-radius: 8px;
+  line-height: 1.9;
+  font-size: 18px;
+}
+
+.shayari {
+  text-align: center;
+  line-height: 2.1;
+  font-size: 19px;
+  white-space: pre-line;
+  background: linear-gradient(135deg, #fff7fb, #f0eaff);
+  padding: 24px;
+  border-radius: 20px;
+}
+
+.reveal {
+  display: block;
+  margin: 20px auto 0;
+}
+
+.hidden-message {
+  display: none;
+  text-align: center;
+  font-size: 20px;
+  line-height: 1.8;
+  padding: 22px;
+  background: #fff4f9;
+  border-radius: 18px;
+  margin-top: 18px;
+}
+
+.hidden-message.show {
+  display: block;
+  animation: appear .4s ease;
+}
+
+footer {
+  text-align: center;
+  padding: 28px 12px;
+  color: #9b6c83;
+  font: 13px Arial, sans-serif;
+}
+
+.small {
+  font: 13px Arial, sans-serif;
+  color: #a87991;
+  text-align: center;
+  margin-top: 20px;
+}
+
+@media(max-width:520px) {
+  .navbtn {
+    font-size: 12px;
+    padding: 9px 11px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- WELCOME PAGE -->
+<section class="hero" id="welcome">
+  <div class="hero-card">
+    <div class="kicker">
+      A little surprise, made with care
+    </div>
+
+    <h1>For Nyasha ♡</h1>
+
+    <p class="subtitle">
+      A tiny corner of the internet for someone
+      who makes ordinary moments a little brighter.
+    </p>
+
+    <p style="font-size:17px;margin-bottom:24px">
+      To my favourite <b>Choti Doctor</b> 🌷
+    </p>
+
+    <button class="primary" onclick="enterSite()">
+      Open your little surprise ✨
+    </button>
+  </div>
+</section>
+
+<main id="content" hidden>
+
+<!-- NAVIGATION -->
+<nav aria-label="Surprise pages">
+
+  <button class="navbtn active"
+  onclick="showPage('poster',this)">
+    🌸 1. Poster
+  </button>
+
+  <button class="navbtn"
+  onclick="showPage('letter',this)">
+    💌 2. Letter
+  </button>
+
+  <button class="navbtn"
+  onclick="showPage('shayari',this)">
+    🪷 3. Shayari
+  </button>
+
+  <button class="navbtn"
+  onclick="showPage('surprise',this)">
+    🎁 4. Surprise
+  </button>
+
+</nav>
+
+<!-- PAGE 1: POSTER -->
+<section class="page active" id="poster">
+
+  <div class="panel">
+
+    <div class="kicker" style="text-align:center">
+      A little page made just for you
+    </div>
+
+    <h2>Choti Doctor 🌷</h2>
+
+    <p class="lead">
+      Nyasha — a lovely friend, a bright presence,
+      and someone worth celebrating.
+    </p>
+
+    <div style="
+      max-width:650px;
+      margin:28px auto;
+      padding:34px 22px;
+      text-align:center;
+      border-radius:24px;
+      background:linear-gradient(135deg,#fff3f8,#f0eaff);
+      border:1px solid #f7dce9;
+    ">
+
+      <div style="font-size:58px;line-height:1.4">
+        🌷 ✨ 🌸
+      </div>
+
+      <div style="
+        font-size:clamp(30px,7vw,48px);
+        color:#b64f80;
+        margin:10px 0;
+      ">
+        Nyasha
+      </div>
+
+      <div style="
+        font-size:19px;
+        font-style:italic;
+        line-height:1.7;
+      ">
+        A smile that brightens the day,<br>
+        a friend who makes moments sweeter.
+      </div>
+
+      <div style="font-size:34px;margin-top:16px">
+        ♡ 🦋 ♡
+      </div>
+
+    </div>
+
+    <p class="small">
+      A reminder: your smile deserves plenty of happy days.
+    </p>
+
+  </div>
+</section>
+
+<!-- PAGE 2: LETTER -->
+<section class="page" id="letter">
+
+  <div class="panel">
+
+    <div class="kicker" style="text-align:center">
+      A note from a friend
+    </div>
+
+    <h2>Dear Nyasha, 💗</h2>
+
+    <div class="note">
+
+      Some people make conversations feel lighter
+      and everyday moments feel more cheerful.
+      You're one of those people.
+
+      <br><br>
+
+      I hope you never forget how much your kindness,
+      your laughter, and your own little way of being
+      yourself can mean to the people around you.
+
+      <br><br>
+
+      Keep chasing your dreams, keep laughing at
+      the silly things, and keep being the person
+      you are. Wishing you lots of happiness,
+      confidence, and beautiful memories ahead.
+
+      <br><br>
+
+      With warm wishes,<br>
+      <b>Your friend</b> ♡
+
+    </div>
+
+  </div>
+</section>
+
+<!-- PAGE 3: SHAYARI -->
+<section class="page" id="shayari">
+
+  <div class="panel">
+
+    <div class="kicker" style="text-align:center">
+      Kuch alfaaz, dil se
+    </div>
+
+    <h2>Nyasha ke naam 🌸</h2>
+
+    <div class="shayari">
+Kuch log kitaabon jaise hote hain,
+har mulaqat mein kuch naya sikha jaate hain.
+
+Kuch dost duaon jaise hote hain,
+bina kahe hi chehre par muskaan le aate hain.
+
+Teri raahon mein khushiyon ke phool khilein,
+har naye din mein naye hausle milein.
+
+Bas itni si dua hai, ae dost mere,
+tere har kal mein aaj se zyada ujale rahein. ♡
+    </div>
+
+    <p class="small">
+      For my Choti Doctor — with friendship and best wishes.
+    </p>
+
+  </div>
+</section>
+
+<!-- PAGE 4: SURPRISE -->
+<section class="page" id="surprise">
+
+  <div class="panel">
+
+    <div class="kicker" style="text-align:center">
+      One last little thing
+    </div>
+
+    <h2>A tiny reminder 🎁</h2>
+
+    <p class="lead">
+      There's a message waiting just for you.
+      Tap the button when you're ready.
+    </p>
+
+    <button class="primary reveal" onclick="revealMessage()">
+      Open your final surprise 💌
+    </button>
+
+    <div class="hidden-message" id="hiddenMessage">
+
+      Nyasha, never underestimate the good you
+      bring into the world. Keep smiling, keep
+      growing, and never stop being your lovely,
+      unique self. The world needs more kindness
+      like yours. 🌷
+
+      <br><br>
+
+      <b>Stay happy, Choti Doctor! ♡</b>
+
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  Made with friendship, good wishes & a little bit of creativity ♡
+</footer>
+
+</main>
+
+<script>
+
+function enterSite() {
+
+  document.getElementById('welcome').style.display = 'none';
+
+  document.getElementById('content').hidden = false;
+
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+
+}
+
+function showPage(id, button) {
+
+  document.querySelectorAll('.page').forEach(p => {
+    p.classList.remove('active');
+  });
+
+  document.getElementById(id).classList.add('active');
+
+  document.querySelectorAll('.navbtn').forEach(b => {
+    b.classList.remove('active');
+  });
+
+  button.classList.add('active');
+
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+
+}
+
+function revealMessage() {
+
+  document.getElementById('hiddenMessage')
+    .classList.add('show');
+
+}
+
+</script>
+
+</body>
+</html>
